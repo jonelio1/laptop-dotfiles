@@ -1,0 +1,156 @@
+// -*- mode: jsonc -*-
+{
+	// "layer": "top", // Waybar at top layer
+	// "position": "bottom", // Waybar position (top|bottom|left|right)
+	"height": 40, // Waybar height (to be removed for auto height)
+	// "width": 1280, // Waybar width
+	"spacing": 4, // Gaps between modules (4px)
+	// Choose the order of the modules
+	"modules-left": [
+		"hyprland/workspaces",
+		"sway/mode",
+		"sway/scratchpad",
+		"custom/media"
+	],
+	"modules-right": [
+		"idle_inhibitor",
+		"pulseaudio",
+		"network",
+		"custom/wireguard",
+		"bluetooth",
+		"power-profiles-daemon",
+		"battery",
+		"clock",
+		"tray",
+		"custom/power"
+	],
+	"bluetooth": {
+		"format": " {status}",
+		"format-connected": " {device_alias}",
+		"format-connected-battery": " {device_alias} {device_battery_percentage}%",
+		// "format-device-preference": [ "device1", "device2" ], // set a preference
+		"tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+		"tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+		"tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+		"on-click": "blueman-manager"
+	},
+	// Modules configuration
+	"hyprland/workspaces": {
+		"disable-scroll": true,
+		"all-outputs": true,
+		"warp-on-scroll": false
+	},
+	"keyboard-state": {
+		"numlock": true,
+		"capslock": true,
+		"format": "{name} {icon}",
+		"format-icons": {
+			"locked": "",
+			"unlocked": ""
+		}
+	},
+	"idle_inhibitor": {
+		"format": "{icon}",
+		"format-icons": {
+			"activated": "",
+			"deactivated": ""
+		}
+	},
+	"tray": {
+		// "icon-size": 21,
+		"spacing": 10,
+		// "icons": {
+		//   "blueman": "bluetooth",
+		//   "TelegramDesktop": "$HOME/.local/share/icons/hicolor/16x16/apps/telegram.png"
+		// }
+	},
+	"custom/wireguard": {
+		"format": "{}",
+		"exec": "~/.config/waybar/scripts/wireguard_toggle.sh",
+		"on-click": "~/.config/waybar/scripts/wireguard_toggle.sh toggle",
+		"interval": 5,
+		"return-type": "json"
+	},
+	"clock": {
+		// "timezone": "Europe/Vilnius",
+		"tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+		"format-alt": "{:%Y-%m-%d}"
+	},
+	"battery": {
+		"states": {
+			// "good": 95,
+			"warning": 30,
+			"critical": 15
+		},
+		"format": "{capacity}% {icon}",
+		"format-full": "{capacity}% {icon}",
+		"format-charging": "{capacity}% ",
+		"format-plugged": "{capacity}% ",
+		"format-alt": "{time} {icon}",
+		// "format-good": "", // An empty format will hide the module
+		// "format-full": "",
+		"format-icons": [
+			"",
+			"",
+			"",
+			"",
+			""
+		]
+	},
+	"power-profiles-daemon": {
+		"format": "{icon}",
+		"tooltip-format": "Power profile: {profile}",
+		"tooltip": true,
+		"format-icons": {
+			"default": "",
+			"performance": "",
+			"balanced": "󰝔",
+			"power-saver": ""
+		}
+	},
+	"network": {
+		// "interface": "wlp2*", // (Optional) To force the use of this interface
+		"format-wifi": "{essid} ({signalStrength}%) ",
+		"tooltip-format": "{ifname} via {gwaddr} ",
+		"format-linked": "{ifname} (No IP) ",
+		"format-disconnected": "Disconnected ",
+		"format-alt": "{ifname}: {ipad$ wl-paste --watch cliphist storedr}/{cidr}",
+		"on-click": "nmcli device wifi list | rofi -dmenu -p 'WiFi' | awk '{print $2}' | xargs nmcli device wifi connect"
+	},
+	"pulseaudio": {
+		"scroll-step": 1, // %, can be a float
+		"format": "{volume}% {icon} {format_source}",
+		"format-bluetooth": "{volume}%  {format_source}",
+		"format-bluetooth-muted": "  {format_source}",
+		"format-muted": " {format_source}",
+		"format-source": "{volume}% ",
+		"format-source-muted": "",
+		"format-icons": {
+			"headphone": "",
+			"hands-free": "󰋎",
+			"headset": "󰋎",
+			"phone": "",
+			"portable": "",
+			"car": "",
+			"default": [
+				"",
+				"",
+				""
+			]
+		},
+		"on-click": "pavucontrol"
+	},
+	"custom/media": {
+		"format": "{}",
+		"return-type": "json",
+		"max-length": 40,
+		"on-click": "playerctl -p spotify play-pause",
+		"interval": 1,
+		"exec": "$HOME/.config/waybar/scripts/spotify.sh"
+	},
+	"custom/power": {
+		"format": "⏻ ",
+		"tooltip": false,
+		"on-click": "wlogout"
+	}
+}

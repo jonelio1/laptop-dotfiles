@@ -1,0 +1,232 @@
+/* -----------------------------------------------------------------------------
+ * CATPPUCCIN MOCHA PALETTE
+ * -------------------------------------------------------------------------- */
+@define-color base   #1e1e2e;
+@define-color mantle #181825;
+@define-color crust  #11111b;
+
+@define-color text     #cdd6f4;
+@define-color subtext0 #a6adc8;
+@define-color subtext1 #bac2de;
+
+@define-color surface0 #313244;
+@define-color surface1 #45475a;
+@define-color surface2 #585b70;
+
+@define-color overlay0 #6c7086;
+@define-color overlay1 #7f849c;
+@define-color overlay2 #9399b2;
+
+@define-color blue      #89b4fa;
+@define-color lavender  #b4befe;
+@define-color sapphire  #74c7ec;
+@define-color sky       #89dceb;
+@define-color teal      #94e2d5;
+@define-color green     #a6e3a1;
+@define-color yellow    #f9e2af;
+@define-color peach     #fab387;
+@define-color maroon    #eba0ac;
+@define-color red       #f38ba8;
+@define-color mauve     #cba6f7;
+@define-color pink      #f5c2e7;
+@define-color flamingo  #f2cdcd;
+@define-color rosewater #f5e0dc;
+
+/* -----------------------------------------------------------------------------
+ * GENERAL BAR SETTINGS
+ * -------------------------------------------------------------------------- */
+* {
+    font-family: "JetBrainsMono Nerd Font", "Font Awesome 6 Free", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+window#waybar {
+    background-color: @base;
+    color: @text;
+    border-bottom: 2px solid @surface0;
+    transition-property: background-color;
+    transition-duration: .5s;
+}
+
+/* -----------------------------------------------------------------------------
+ * WORKSPACES (Left)
+ * -------------------------------------------------------------------------- */
+#workspaces button {
+    padding: 0 5px;
+    background-color: transparent;
+    color: @subtext0;
+}
+
+#workspaces button:hover {
+    background: @surface0;
+    box-shadow: inherit;
+    text-shadow: inherit;
+    border-radius: 10px;
+}
+#bluetooth {
+    background-color: @lavender;
+    color: @base;
+}
+
+#bluetooth.connected {
+    background-color: @sapphire; /* Brighter blue when in use */
+}
+
+#bluetooth.off {
+    background-color: @surface2; /* Gray when disabled */
+    color: @subtext0;
+}
+#workspaces button.active {
+    color: @mauve;
+    background-color: @surface1;
+    border-radius: 10px;
+}
+
+#workspaces button.urgent {
+    color: @base;
+    background-color: @red;
+    border-radius: 10px;
+}
+
+/* -----------------------------------------------------------------------------
+ * MODULES - COMMON STYLES
+ * -------------------------------------------------------------------------- */
+/* This targets all the modules in your right block */
+#clock,
+#battery,
+#cpu,
+#memory,
+#bluetooth,
+#disk,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#custom-media,
+#tray,
+#mode,
+#idle_inhibitor,
+#scratchpad,
+#power-profiles-daemon,
+#custom-wireguard {
+    padding: 0 10px;
+    color: @base; /* Text is dark because backgrounds will be bright */
+    border-radius: 10px;
+    margin: 6px 3px;
+}
+
+/* -----------------------------------------------------------------------------
+ * MODULES - SPECIFIC COLORS
+ * -------------------------------------------------------------------------- */
+
+/* Network Group */
+#network {
+    background-color: @blue;
+}
+
+#custom-wireguard {
+    background-color: @sapphire;
+}
+/* When disconnected, turn red */
+#custom-wireguard.disconnected {
+    background-color: @surface2;
+    color: @text;
+}
+
+/* Hardware Group */
+#cpu {
+    background-color: @mauve;
+}
+
+#memory {
+    background-color: @pink;
+}
+
+#temperature {
+    background-color: @flamingo;
+}
+
+#temperature.critical {
+    background-color: @red;
+}
+
+/* System Group */
+#backlight {
+    background-color: @yellow;
+}
+
+#pulseaudio {
+    background-color: @teal;
+}
+
+#pulseaudio.muted {
+    background-color: @surface2;
+    color: @subtext0;
+}
+
+#battery {
+    background-color: @green;
+}
+
+#battery.charging, #battery.plugged {
+    background-color: @sky;
+}
+
+#battery.critical:not(.charging) {
+    background-color: @red;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+#power-profiles-daemon {
+    background-color: @rosewater;
+}
+
+/* Clock & Tray */
+#clock {
+    background-color: @lavender;
+}
+
+#tray {
+    background-color: @surface0;
+    color: @text;
+}
+
+/* -----------------------------------------------------------------------------
+ * POWER MENU & ANIMATIONS
+ * -------------------------------------------------------------------------- */
+#custom-power {
+    color: @red;
+    padding: 0 15px;
+    margin-right: 10px;
+}
+
+@keyframes blink {
+    to {
+        background-color: @base;
+        color: @red;
+    }
+}
+
+/* Spotify Widget */
+#custom-media {
+    background-color: @surface1; /* Default dark background */
+    color: @subtext0;
+    min-width: 100px;
+}
+
+/* When Spotify is actually playing */
+#custom-media.playing {
+    background-color: @green;
+    color: #1e1e2e; /* Dark text for contrast against green */
+}
+
+/* When Spotify is paused */
+#custom-media.paused {
+    background-color: @surface2;
+    color: @overlay1;
+}

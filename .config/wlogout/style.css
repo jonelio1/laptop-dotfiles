@@ -1,0 +1,64 @@
+/* -----------------------------------------------------
+ * CATPPUCCIN MOCHA THEME
+ * ----------------------------------------------------- */
+
+* {
+    background-image: none;
+    font-family: "JetBrainsMono Nerd Font", "Roboto", sans-serif;
+}
+
+window {
+    background-color: rgba(30, 30, 46, 0.85); /* Base with opacity */
+}
+
+button {
+    color: #cdd6f4; /* Text */
+    background-color: #313244; /* Surface0 */
+    border-style: solid;
+    border-width: 2px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 25%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    margin: 5px;
+    transition: box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+button:hover {
+    background-color: #cba6f7; /* Mauve Hover */
+    color: #1e1e2e; /* Dark text on hover */
+}
+
+button:focus {
+    background-color: #cba6f7;
+    color: #1e1e2e;
+}
+
+/* -----------------------------------------------------
+ * ICONS MAPPING
+ * ----------------------------------------------------- */
+
+#lock {
+    background-image: image(url("/usr/share/wlogout/icons/lock.png"));
+}
+
+#logout {
+    background-image: image(url("/usr/share/wlogout/icons/logout.png"));
+}
+
+#suspend {
+    background-image: image(url("/usr/share/wlogout/icons/suspend.png"));
+}
+
+#hibernate {
+    background-image: image(url("/usr/share/wlogout/icons/hibernate.png"));
+}
+
+#shutdown {
+    background-image: image(url("/usr/share/wlogout/icons/shutdown.png"));
+}
+
+#reboot {
+    background-image: image(url("/usr/share/wlogout/icons/reboot.png"));
+}

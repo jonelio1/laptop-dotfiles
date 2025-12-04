@@ -1,0 +1,21 @@
+[Default]
+save_dir=$HOME/Pictures/Screenshots
+save_filename_format=screenshot-%Y%m%d-%H%M%S.png
+show_panel=false
+line_size=5
+text_size=20
+text_font=JetBrainsMono Nerd Font
+paint_mode=brush
+early_exit=true
+fill_shape=false
+
+[Paint]
+# Catppuccin Mocha Palette
+color0=1e1e2e # Base (Black-ish)
+color1=f38ba8 # Red
+color2=a6e3a1 # Green
+color3=f9e2af # Yellow
+color4=89b4fa # Blue
+color5=cba6f7 # Mauve (Default usage)
+color6=94e2d5 # Teal
+color7=cdd6f4 # Text (White-ish)
