@@ -115,7 +115,7 @@
 		"format-linked": "{ifname} (No IP) ",
 		"format-disconnected": "Disconnected ",
 		"format-alt": "{ifname}: {ipad$ wl-paste --watch cliphist storedr}/{cidr}",
-		"on-click": "nmcli device wifi list | rofi -dmenu -p 'WiFi' | awk '{print $2}' | xargs nmcli device wifi connect"
+		"on-click": "~/.config/waybar/scripts/wifi-menu.sh"
 	},
 	"pulseaudio": {
 		"scroll-step": 1, // %, can be a float
