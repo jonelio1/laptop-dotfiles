@@ -171,12 +171,14 @@ require("lazy").setup({
 		},
 		config = function(_, opts)
 			require("which-key").setup(opts)
-			require("which-key").register({
-				f = { name = "[F]ile", _ = "which_key_ignore" },
-				l = { name = "[L]SP", _ = "which_key_ignore" },
-				t = { name = "[T]elescope", _ = "which_key_ignore" },
-				w = { name = "[Window]", _ = "which_key_ignore" },
-			}, { prefix = "<leader>" })
+			require("which-key").register(
+	{
+    { "", group = "[L]SP" },
+    { "", group = "[F]ile" },
+    { "", group = "[T]elescope" },
+    { "", group = "[Window]" },
+    { "", desc = "", hidden = true, mode = { "n", "n", "n", "n" } },
+  }	)
 		end
 	},
 	{
