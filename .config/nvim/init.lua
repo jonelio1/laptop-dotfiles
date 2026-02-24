@@ -1,6 +1,4 @@
--- ========================================================================== --
---  1. BOOTSTRAP LAZY.NVIM
--- ========================================================================== --
+-- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
@@ -10,40 +8,27 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- ========================================================================== --
---  2. GENERAL SETTINGS
--- ========================================================================== --
-vim.g.mapleader = " "             -- Space is the leader key
+-- General Settings
+vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-vim.opt.number = true             -- Show line numbers
-vim.opt.relativenumber = true     -- Relative line numbers
-vim.opt.mouse = "a"               -- Enable mouse support
-vim.opt.clipboard = "unnamedplus" -- Sync with system clipboard (Hyprland)
-vim.opt.breakindent = true
-vim.opt.undofile = true
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
-vim.opt.signcolumn = "yes"
-vim.opt.updatetime = 250
-vim.opt.timeoutlen = 300
-vim.opt.termguicolors = true
 
--- ========================================================================== --
---  3. PLUGINS
--- ========================================================================== --
+local opt = vim.opt
+opt.number = true
+opt.relativenumber = true
+opt.mouse = "a"
+opt.clipboard = "unnamedplus"
+opt.breakindent = true
+opt.undofile = true
+opt.ignorecase = true
+opt.smartcase = true
+opt.signcolumn = "yes"
+opt.updatetime = 250
+opt.timeoutlen = 300
+opt.termguicolors = true
+
+-- Plugins
 require("lazy").setup({
-	{
-		"nvim-tree/nvim-web-devicons",
-		lazy = true,
-	},
-	{
-		"folke/mini.nvim",
-		lazy = true,
-		config = function()
-			require("mini.starter").setup()
-		end
-	},
-	-- THEME: Catppuccin Mocha
+	-- UI & Appearance
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
@@ -53,26 +38,22 @@ require("lazy").setup({
 			vim.cmd.colorscheme("catppuccin")
 		end,
 	},
+	{ "nvim-tree/nvim-web-devicons", lazy = true },
+	{ "nvim-lualine/lualine.nvim",   opts = { options = { theme = "catppuccin" } } },
+	{ "folke/mini.nvim",             config = function() require("mini.starter").setup() end },
 
-	-- UI: Telescope (Fuzzy Finder)
+	-- Telescope
 	{
 		"nvim-telescope/telescope.nvim",
 		branch = "0.1.x",
 		dependencies = { "nvim-lua/plenary.nvim" },
-		config = function()
-			local builtin = require('telescope.builtin')
-			vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Find Files' })
-			vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Grep Files' })
-		end
+		keys = {
+			{ "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find Files" },
+			{ "<leader>fg", "<cmd>Telescope live_grep<cr>",  desc = "Grep Files" },
+		},
 	},
 
-	-- UI: Status Line (Lualine)
-	{
-		"nvim-lualine/lualine.nvim",
-		opts = { options = { theme = "catppuccin" } }
-	},
-
-	-- SYNTAX: Treesitter (Better Highlighting)
+	-- Treesitter
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
@@ -85,28 +66,27 @@ require("lazy").setup({
 		end,
 	},
 
-	-- LSP: Mason (Installer) & LSP Config
+	-- LSP
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
-			"hrsh7th/cmp-nvim-lsp", -- Integration with autocomplete
-			"j-hui/fidget.nvim", -- UI for LSP progress
+			"hrsh7th/cmp-nvim-lsp",
+			"j-hui/fidget.nvim",
 		},
 		config = function()
 			require("mason").setup()
 			require("fidget").setup({})
-
-			local lspconfig = require("lspconfig")
-			local cmp_nvim_lsp = require('cmp_nvim_lsp')
+			local cmp_nvim_lsp = require("cmp_nvim_lsp")
+			local capabilities = cmp_nvim_lsp.default_capabilities()
 
 			require("mason-lspconfig").setup({
 				ensure_installed = { "gopls", "pyright", "lua_ls", "jsonls" },
-				handlers = { -- Corrected function name and logic
+				handlers = {
 					function(server_name)
-						lspconfig[server_name].setup({
-							capabilities = cmp_nvim_lsp.default_capabilities(),
+						require("lspconfig")[server_name].setup({
+							capabilities = capabilities,
 						})
 					end,
 				},
@@ -114,7 +94,7 @@ require("lazy").setup({
 		end,
 	},
 
-	-- AUTOCOMPLETE: Cmp
+	-- Autocomplete
 	{
 		"hrsh7th/nvim-cmp",
 		dependencies = {
@@ -130,57 +110,24 @@ require("lazy").setup({
 			cmp.setup({
 				snippet = { expand = function(args) luasnip.lsp_expand(args.body) end },
 				mapping = cmp.mapping.preset.insert({
-					['<C-n>'] = cmp.mapping.select_next_item(),
-					['<C-p>'] = cmp.mapping.select_prev_item(),
-					['<C-d>'] = cmp.mapping.scroll_docs(-4),
-					['<C-f>'] = cmp.mapping.scroll_docs(4),
-					['<C-Space>'] = cmp.mapping.complete(),
-					['<CR>'] = cmp.mapping.confirm({ select = true }),
+					["<C-n>"] = cmp.mapping.select_next_item(),
+					["<C-p>"] = cmp.mapping.select_prev_item(),
+					["<C-d>"] = cmp.mapping.scroll_docs(-4),
+					["<C-f>"] = cmp.mapping.scroll_docs(4),
+					["<C-Space>"] = cmp.mapping.complete(),
+					["<CR>"] = cmp.mapping.confirm({ select = true }),
 				}),
 				sources = {
-					{ name = 'nvim_lsp' },
-					{ name = 'luasnip' },
-					{ name = 'buffer' },
-					{ name = 'path' },
+					{ name = "nvim_lsp" },
+					{ name = "luasnip" },
+					{ name = "buffer" },
+					{ name = "path" },
 				},
 			})
-		end
+		end,
 	},
 
-	-- FORMATTING: Conform (Auto-format on save)
-	{
-		"folke/which-key.nvim",
-		event = "VeryLazy",
-		init = function()
-			vim.o.timeout = true
-			vim.o.timeoutlen = 300
-		end,
-		opts = {
-			preset = "helix",
-			plugins = {
-				marks = true,
-				registers = true,
-				motions = false,
-			},
-			win = {
-				border = "rounded",
-				position = "bottom",
-				padding = { 2, 2, 2, 2 },
-			},
-			ignore_modes = { "c", "r", "R" },
-		},
-		config = function(_, opts)
-			require("which-key").setup(opts)
-			require("which-key").register(
-	{
-    { "", group = "[L]SP" },
-    { "", group = "[F]ile" },
-    { "", group = "[T]elescope" },
-    { "", group = "[Window]" },
-    { "", desc = "", hidden = true, mode = { "n", "n", "n", "n" } },
-  }	)
-		end
-	},
+	-- Formatting
 	{
 		"stevearc/conform.nvim",
 		opts = {
@@ -194,4 +141,20 @@ require("lazy").setup({
 			},
 		},
 	},
+
+	-- Keybindings (Which-Key)
+	{
+		"folke/which-key.nvim",
+		event = "VeryLazy",
+		opts = {
+			preset = "helix",
+			spec = {
+				{ "<leader>f", group = "[F]ile" },
+				{ "<leader>l", group = "[L]SP" },
+				{ "<leader>t", group = "[T]elescope" },
+				{ "<leader>w", group = "[W]indow" },
+			},
+		},
+	},
 })
+
