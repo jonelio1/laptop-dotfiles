@@ -108,12 +108,13 @@
 		}
 	},
 	"network": {
+		"interval": 3,
 		// "interface": "wlp2*", // (Optional) To force the use of this interface
 		"format-wifi": "{essid} ({signalStrength}%) ",
 		"tooltip-format": "{ifname} via {gwaddr} ",
 		"format-linked": "{ifname} (No IP) ",
 		"format-disconnected": "Disconnected ",
-		"format-alt": "{ifname}: {ipad$ wl-paste --watch cliphist storedr}/{cidr}",
+		"format-alt": "{ifname}: {ipaddr}/{cidr}",
 		"on-click": "~/.config/waybar/scripts/wifi-menu.sh"
 	},
 	"pulseaudio": {
